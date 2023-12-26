@@ -1,0 +1,66 @@
+Choose subnets: Choose two subnets as per the guidelines provided. For example, one subnet could be 10.0.0.0/28 with the first address as 10.0.0.48 and another subnet could be 10.0.1.0/24 with the first address as 10.0.1.0.
+$ lab-create mylab
+$ touch mylab/conf/r1
+$ lab-start mylab
+15465
+lstart -p0
+
+PC1:
+
+ip address 172.16.1.10 255.255.255.240
+default-gateway 172.16.1.1
+
+
+PC2:
+
+ip address 172.16.1.11 255.255.255.240
+default-gateway 172.16.1.1
+
+
+PC3:
+
+ip address 192.168.1.10 255.255.255.0
+default-gateway 192.168.1.1
+
+
+Router 1:
+
+interface P1
+ip address 172.16.1.1 255.255.255.240
+
+interface P2
+ip address 192.168.1.1 255.255.255.0
+
+
+
+Router 2:
+
+interface P1
+ip address 192.168.1.2 255.255.255.0
+
+interface P2
+ip address 192.168.42.2 255.255.255.0
+
+
+
+Architecture:
+
+PC1 is connected to P1 of s1 (Switch 1)
+PC2 is connected to P2 of s1 (Switch 1)
+P3 of s1 (Switch 1) is connected to P1 of r1 (Router 1)
+P2 of r1 (Router 1) is connected to P1 of s2 (Switch 2)
+P2 of s2 (Switch 2) is connected to PC3
+P3 of s2 (Switch 2) is connected to P1 of r2 (Router 2)
+P2 of r2 (Router 2) is connected to the Internet network with IP 192.168.42.1
+
+PC1 ------> P1 of s1 (Switch 1) -------> P3 of s1 (Switch 1) -------> P1 of r1 (Router 1) -------> P2 of r1 (Router 1) -------> P1 of s2 (Switch 2)
+
+PC2 ------> P2 of s1 (Switch 1) -------> P3 of s1 (Switch 1) -------> P1 of r1 (Router 1) -------> P2 of r1 (Router 1) -------> P1 of s2 (Switch 2)
+
+PC3 <------ P2 of s2 (Switch 2) <------- P3 of s2 (Switch 2) <------- P1 of r2 (Router 2) <------- P2 of r2 (Router 2) <------- Internet (192.168.42.0/24)
+
+PC1 and PC2 are on the same subnet and are connected to Switch 1, which is then connected to Router 1. PC3 is on a different subnet and is connected to Switch 2, which is then connected to Router 2.
+
+Router 1 has two interfaces: P1, which is connected to Switch 1, and P2, which is connected to Switch 2. Router 2 has two interfaces: P1, which is connected to Switch 2, and P2, which is connected to the Internet network with IP 192.168.42.1.
+
+The routing between the subnets can be done by the routers using a routing protocol or static routes. The default gateways for PC1 and PC2 are set to 172.16.1.1, which is the IP address of the interface P1 on Router 1. The default gateway for PC3 is set to 192.168.1.1, which is the IP address of the interface P1 on Router 1.

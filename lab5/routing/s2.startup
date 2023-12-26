@@ -1,0 +1,22 @@
+ip link set up dev eth0
+ip link set up dev eth1
+ip link set up dev eth2
+
+# les switches n'ont pas forcement besoin d'adresse MAC (ni IP), sauf
+# pour le management p.ex.
+ip link set address 00:00:00:00:02:00 dev eth0
+ip link set address 00:00:00:00:02:01 dev eth1
+ip link set address 00:00:00:00:02:02 dev eth2
+
+# creation d'un bridge
+brctl addbr br0
+
+# trois interfaces bridgees
+brctl addif br0 eth0
+brctl addif br0 eth1
+brctl addif br0 eth2
+
+# pas de spanning tree
+brctl stp br0 off
+
+ip link set up dev br0

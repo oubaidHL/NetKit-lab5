@@ -1,0 +1,84 @@
+2-
+(a) La route par défaut correspond au sous-réseau 0.0.0.0/0.
+
+(b) Les entrées de la table de routage doivent être traitées dans l'ordre suivant :
+
+Routes explicites pour les adresses de destination spécifiques
+
+Routes par défaut
+
+Routes pour les sous-réseaux
+Si une adresse de destination spécifique correspond à une route, elle sera utilisée en priorité. Si aucune route explicite n'est définie, la route par défaut sera utilisée. Si la route par défaut ne correspond pas à l'adresse de destination, les routes pour les sous-réseaux seront examinées.
+
+3)Tableau pour un ping de pc1 à pc3 :
+
+MAC IP
+src : 00:00:01:00:00:00 dst : 00:00:00:01:00:00
+src : 172.16.1.10 dst : 192.168.1.10
+
+src : 00:00:00:01:00:00 dst : 00:00:01:00:00:00
+src : 192.168.1.10 dst : 172.16.1.10
+
+Le tableau montre que les adresses MAC ont une portée de domaine de diffusion, c'est-à-dire qu'elles sont limitées à la couche 2 du réseau local et ne traversent pas les routeurs. Les adresses IP, en revanche, ont une portée universelle et peuvent être utilisées pour atteindre des destinations sur d'autres réseaux.
+
+4)
+La ligne bizarre entre notre réseau virtuel et le réseau de la HE-Arc est due au mode réseau NAT de la machine virtuelle, qui utilise une adresse IP privée dans notre réseau virtuel pour communiquer avec l'adresse IP publique du réseau de la HE-Arc.
+
+5)
+Dans l'outil mtr, le routeur r2 qui transforment les adresses IP privées en adresses IP publiques pour la communication avec des réseaux externes.
+
+
+7)
+Le Software Defined Networking (SDN) est une approche de conception et de gestion des réseaux informatiques qui sépare le plan de contrôle du plan de données, permettant ainsi une gestion centralisée et automatisée du réseau via des logiciels. Le SDN permet de programmer et de contrôler le flux de données via un contrôleur centralisé plutôt que via des équipements de réseau individuels.
+8)
+Comparer les traces visibles sur eth1 de r2 et sur l'interface réseau externe du host Linux 10 permet d'identifier la fonction NAT. Lorsqu'on effectue un ping d'une adresse IP extérieure, par exemple l'adresse IP Ethernet de son PC, 8.8.8.8 ou 157.26.77.13 depuis la HE-Arc, on peut observer que les adresses sources sont modifiées pour correspondre à l'adresse IP publique de la connexion Internet du réseau de la HE-Arc. La fonction NAT permet de masquer les adresses IP privées derrière une seule adresse IP publique pour accéder à des réseaux externes.
+9)
+La configuration de notre réseau ne semble pas être la plus efficace en termes de routage. En effet, en n'ayant pas de routeur central, chaque terminal doit connaître la route à suivre pour atteindre une destination sur un autre sous-réseau. Cela peut entraîner des problèmes de gestion de la table de routage et des conflits d'adresses IP. Il serait plus efficace d'avoir un routeur central pour gérer les routes entre les sous-réseaux et pour diffuser les routes par défaut via DHCP aux terminaux. Un schéma simplifié de ce réseau pourrait inclure trois sous-réseaux avec un routeur central qui gère les connexions entre eux.
+10)
+Le mot de passe root est demandé pendant le lancement de r2 pouro pour la création de la liaison au réseau réel (via pseudodevice UNIX tap et fonction NAT).
+11)
+Le joker/wildcard du shell est un caractère spécial (*) ou (1-3)  qui peut être utilisé pour représenter n'importe quel caractère ou combinaison de caractères dans un nom de fichier ou un chemin. Il permet de simplifier la syntaxe des commandes en évitant d'avoir à spécifier un nom de fichier ou un chemin complet. 
+12)ARP est un risque potentiel pour la sécurité car il peut être utilisé par des attaquants pour effectuer un spoofing ARP et intercepter le trafic réseau. Pour limiter ce risque, les administrateurs réseau peuvent mettre en place des mesures de sécurité telles que des entrées ARP statiques, la sécurité des ports et l'inspection ARP. De plus, l'utilisation de protocoles réseau chiffrés tels que HTTPS et SSH peut aider à se protéger contre les attaques utilisant le spoofing ARP.
+----------------------------------------
+Checklist – 5.7
+
+***********
+base :
+***********
+
+j’ai pu définir les sous-réseaux nécessaires et affecter des adresses et
+netmask
+--------------------------
+je comprends le principe général d’une configuration d’un labo netkit 
+----------------
+j’ai pu configurer ce laboratoire Netkit en fonction des sous-réseaux et
+adresses définies
+------------
+j’ai pu lancer l’émulation Netkit
+
+***********
+base :
+***********
+--------------------
+j’ai pu comprendre les routes qui manquaient et ajouter celles-ci 
+--------------------------
+la portée des couches, sur un exemple, est claire pour moi 
+-------------------------------------------
+j’ai pu capturer le protocole ARP et comprendre la notion de cache ARP 
+---------------------------------------------------------
+j’ai répondu aux questions
+------------------------
+
+***********
+base :
+***********
+
+j’ai vu le fonctionnement du NAT/PAT 2
+------------------------------------
+j’ai de meilleures notions du placement des routeurs dans le but de simplifier la configuration des terminaux
+------------------------------------
+j’ai répondu aux questions avancées
+
+
+
+

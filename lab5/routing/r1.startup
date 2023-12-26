@@ -1,0 +1,23 @@
+# interfaces du routeur
+ip link set address 00:00:01:00:00:00 dev eth0
+ip link set address 00:00:01:00:00:01 dev eth1
+
+# eviter les routes bancales sur les postes
+# (ne pas envoyer d'ICMP redirect)
+echo 0 | tee /proc/sys/net/ipv4/conf/*/send_redirects
+
+# adresse IP (couche 3) et netmask (format CIDR)
+# remplacez A.B.C.D et bits ci-dessous
+# (A.B.C.D: adresse IP, bits: nombre de bits
+#  fixes du netmask -- notation CIDR)
+ip addr add 172.16.1.1/28 dev eth0
+ip addr add 192.168.1.1/24 dev eth1
+
+ip link set up dev eth0
+ip link set up dev eth1
+ip route add default via 192.168.1.2
+ip route add default via 192.168.42.2 dev eth1
+# ceci vous forcera a reflechir un peu sur
+# les tables de routage de pc3 et r2
+iptables -I FORWARD -i eth1 -o eth1 -j DROP
+

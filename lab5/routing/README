@@ -1,0 +1,20 @@
+Voir Labo 4 du polycopié.
+
+Notes:
+   - on peut voir l'interface tap sur la machine qui lance netkit, avec
+     /sbin/ifconfig; et on peut voir également la règle de NAT ajoutée:
+
+     schaefer@reliand:~$ /sbin/ifconfig  | grep -A 2 tap  # ou ip link show | grep -A3 tap
+     nk_tap_schaefer Link encap:Ethernet  HWaddr 6a:71:50:0c:7b:07  
+          inet addr:192.168.42.1  Bcast:192.168.42.255  Mask:255.255.255.0
+          inet6 addr: fe80::6871:50ff:fe0c:7b07/64 Scope:Link
+
+
+     schaefer@reliand:~$ sudo /sbin/iptables -t nat -L -n -v | grep -B2 MASQ
+     Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
+     pkts bytes target     prot opt in     out     source               destination         
+     547 34560 MASQUERADE  all  --  *      *       0.0.0.0/0            0.0.0.0/0    
+
+NB: on pourrait simplifier la structure du labo en supprimant les
+    switches et en utilisant des hubs (simplement nommer les
+    segments dans lab.conf).
